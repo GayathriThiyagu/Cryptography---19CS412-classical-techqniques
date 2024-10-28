@@ -1,4 +1,3 @@
-# Cryptography---19CS412-classical-techqniques
 # Caeser Cipher
 Caeser Cipher using with different key values
 
@@ -30,6 +29,7 @@ Implementation using C or pyhton code
 
 
 ## PROGRAM:
+```
 PROGRAM:
 CaearCipher.
 #include <stdio.h>
@@ -66,15 +66,12 @@ scanf("%d", &key); // Read the key from the user
  
 caesarDecrypt(message, key); printf("Decrypted Message: %s", message); return 0;
 }
+```
 
+# OUTPUT:
 
-## OUTPUT:
-OUTPUT:
-Simulating Caesar Cipher
+![image](https://github.com/user-attachments/assets/20b6a0bc-6f8e-409a-bc1f-076a3372a2ff)
 
-
-Input : Anna University
-Encrypted Message : Dqqd Xqlyhuvlwb Decrypted Message : Anna University
 
 ## RESULT:
 The program is executed successfully
