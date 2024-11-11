@@ -1,104 +1,67 @@
-# 11. ELLIPTIC CURVE CRYPTOGRAPHY
+# 13. MESSAGE AUTHENTICATION CODE(MAC)
 
 # AIM:
- To perform key exchange using the Elliptic Curve Cryptography (ECC) method.
+To generate and verify a Message Authentication Code (MAC) for ensuring the integrity and authenticity of a message using a simple XOR operation.
 
 # ALGORITHM:
- Choose a large prime number p and an elliptic curve defined by the equation y^2 = x^3 +
- ax+b mod p along with a base point G on the curve. Alice and Bob choose private keys.
- Compute public keys: public_key = private_key* G (point multiplication). Exchange public
- keys. Compute the shared secret: shared_secret = private_key* public_key_received.
+Input a secret key and a message from the user. Generate the MAC by applying a simple XOR operation between the secret key and the message. The MAC is computed by repeating the key or message as necessary. The user can input a received MAC, and the program verifies whether the received MAC matches the computed MAC. The authenticity of the message is confirmed if the.
 
- # PROGRAM:
+# PROGRAM:
 ```
 Program developed by: T. Gayathri
 Reg. No: 212223100007
 
- #include <stdio.h>
- // A simple structure to represent points on the elliptic curve
- typedef struct {
- long long int x, y;
- } Point;
- // Function to compute modular inverse (using Extended Euclidean Algorithm)
- long long int modInverse(long long int a, long long int m) {
- long long int m0 = m, t, q;
- long long int x0 = 0, x1 = 1;
- if (m == 1) return 0;
- while (a > 1) {
- q =a/m;
- t = m;
- m=a%m;
- a =t;
- t = x0;
- x0 = x1- q * x0;
- x1 = t;
- }
- if (x1 < 0) x1 += m;
- return x1;
- }
- // Function to perform point addition on elliptic curves
- Point pointAddition(Point P, Point Q, long long int a, long long int p) {
- Point R;
-long long int lambda;
- if (P.x == Q.x && P.y == Q.y) { // Point doubling
- lambda = (3 * P.x * P.x + a) * modInverse(2 * P.y, p) % p;
- } else { // Point addition
- lambda = (Q.y- P.y) * modInverse(Q.x- P.x, p) % p;
- }
- R.x = (lambda * lambda- P.x- Q.x) % p;
- R.y = (lambda * (P.x- R.x)- P.y) % p;
- // Ensure values are positive
- if (R.x < 0) R.x += p;
- if (R.y < 0) R.y += p;
- return R;
- }
- // Function to perform scalar multiplication (Elliptic Curve Point Multiplication)
- Point scalarMultiplication(Point P, long long int k, long long int a, long long int p) {
- Point result = P;
- k--; // Subtract 1 because we start with the base point
- while (k > 0) {
- result = pointAddition(result, P, a, p);
- k--;
- }
- return result;
- }
- int main() {
- long long int p, a, b, privateA, privateB;
- Point G, publicA, publicB, sharedSecretA, sharedSecretB;
- // Step 1: Input parameters of the elliptic curve
- printf("Enter the prime number (p): ");
- scanf("%lld", &p);
- printf("Enter the curve parameters (a and b) for equation y^2 = x^3 + ax + b: ");
- scanf("%lld %lld", &a, &b);
- printf("Enter the base point G (x and y): ");
- scanf("%lld %lld", &G.x, &G.y);
- // Step 2: Alice and Bob input private keys
- printf("Enter Alice's private key: ");
- scanf("%lld", &privateA);
-printf("Enter Bob's private key: ");
- scanf("%lld", &privateB);
- publicA = scalarMultiplication(G, privateA, a, p); // Alice's public key
- publicB = scalarMultiplication(G, privateB, a, p); // Bob's public key
- printf("Alice's public key: (%lld, %lld)\n", publicA.x, publicA.y);
- printf("Bob's public key: (%lld, %lld)\n", publicB.x, publicB.y);
- sharedSecretA = scalarMultiplication(publicB, privateA, a, p); 
- sharedSecretB = scalarMultiplication(publicA, privateB, a,p);
-  printf("Shared secret computed by Alice: (%lld, %lld)\n",sharedSecretA.x,sharedSecretA.y);
- printf("Shared secret computed by Bob: (%lld, %lld)\n", sharedSecretB.x,sharedSecretB.y);
- if (sharedSecretA.x == sharedSecretB.x && sharedSecretA.y == sharedSecretB.y) {
- printf("Key exchange successful. Both shared secrets match!\n");
- } else {
- printf("Key exchange failed. Shared secrets do not match.\n");
- }
- return 0;
- }
+#include <stdio.h>
+#include <string.h>
+#define MAC_SIZE 32
 
+void computeMAC(const char *key, const char *message, char *mac) {
+    int key_len = strlen(key);
+    int msg_len = strlen(message);
+
+    for (int i = 0; i < MAC_SIZE; i++) {
+        mac[i] = key[i % key_len] ^ message[i % msg_len];
+    }
+    mac[MAC_SIZE] = '\0';
+}
+
+int main() {
+    char key[100], message[100];
+    char mac[MAC_SIZE + 1];
+    char receivedMAC[MAC_SIZE + 1];
+
+    printf("Enter the secret key: ");
+    scanf("%s", key);
+
+    printf("Enter the message: ");
+    scanf("%s", message);
+
+    computeMAC(key, message, mac);
+
+    printf("Computed MAC (in hex): ");
+    for (int i = 0; i < MAC_SIZE; i++) {
+        printf("%02x", (unsigned char)mac[i]);
+    }
+    printf("\n");
+
+    printf("Enter the received MAC (as hex): ");
+    for (int i = 0; i < MAC_SIZE; i++) {
+        scanf("%02hhx", &receivedMAC[i]);
+    }
+
+    if (memcmp(mac, receivedMAC, MAC_SIZE) == 0) {
+        printf("MAC verification successful. Message is authentic.\n");
+    } else {
+        printf("MAC verification failed. Message is not authentic.\n");
+    }
+
+    return 0;
+}
 ```
 
 # OUTPUT:
 
-![Screenshot 2024-11-11 031806](https://github.com/user-attachments/assets/63c03fe3-9132-4482-82e1-61c0d065e2d4)
+![Screenshot 2024-11-11 032500](https://github.com/user-attachments/assets/e3f41d9c-badc-4c50-b037-761da1e65b54)
 
 # RESULT:
- The program for Elliptic Curve Cryptography (ECC) was executed successfully, and
- both Alice and Bob computed the same shared secret
+The Program is executed successfully.
