@@ -1,4 +1,4 @@
-# ELGAMAL ALGORITHM 
+# 12. ELGAMAL ALGORITHM 
 
 # AIM:
 To encrypt and decrypt a message using Elgamal Algorithm 
