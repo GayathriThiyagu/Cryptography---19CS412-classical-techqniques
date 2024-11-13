@@ -1,56 +1,67 @@
-# 10. SIMULATION OF DIFFIE HELLMAN ALGORITHM 
+# 2. PLAYFAIR CIPHER
 
 # AIM:
-To implement key exchange between users using Diffie Hellman algorithm. 
+ To implement Playfair Cipher using C program
 
 # ALGORITHM:
-1. Get the input for prime number p. 
-2. Calculate the primitive root of p that is g. 
-3. Calculate private keys for both users using p and g values. 
-4. Similarly, secret keys for both users are calculated.
+1. Input the plaintext and the key
+ 2. Create the 5x5 cipher matrix
+ 3. Prepare the plaintext
+ 4. Encrypt the plaintext digraphs
+ 5. Output the ciphertext
 
 # PROGRAM:
 ```
 Program developed by: T. Gayathri
 Reg. No: 212223100007
 
-#include <math.h> 
-#include <stdio.h> 
-long long int power(long long int a, long long int b, 
-long long int P) 
-{ 
-    if (b == 1) 
-    return a; 
-    else 
-    return (((long long int)pow(a, b)) % P); 
-} 
+ #include<stdio.h> 
+#include<string.h> 
 int main() 
 { 
-    long long int P, G, x, a, y, b, ka, kb; 
-    printf("\n                  *****Diffie-Hellman Key Exchange algorithm*****\n\n"); 
-    printf("\n\nEnter the value of P: "); 
-    scanf("%lld",&P); // A prime number P is taken 
-    printf("The value of P: %lld\n", P); 
-printf("Enter the value of G (Primitive root of P): "); 
-scanf("%lld",&G); // A primitive root for P, G is taken 
-printf("The value of G: %lld\n\n", G); 
-a = 4; // a is the chosen private key 
-printf("The private key a for Alice : %lld\n", a); 
-x = power(G, a, P); // gets the generated key 
-// Bob will choose the private key b 
-b = 3; // b is the chosen private key 
-printf("The private key b for Bob : %lld\n\n", b); 
-y = power(G, b, P); // gets the generated key 
-ka = power(y, a, P); // Secret key for Alice 
-kb = power(x, b, P); // Secret key for Bob 
-printf("Secret key for the Alice is : %lld\n", ka); 
-printf("Secret Key for the Bob is : %lld\n", kb); 
-return 0; 
-} 
+unsigned int a[3][3]={{6,24,1},{13,16,10},{20,17,15}}; 
+unsigned int b[3][3]={{8,5,10},{21,8,21},{21,12,8}}; 
+int i,j, t=0; 
+
+    unsigned int c[20],d[20]; 
+    char msg[20]; 
+    printf("Enter plain text: "); 
+    scanf("%s",msg); 
+    for(i=0;i<strlen(msg);i++) 
+    { 
+        c[i]=msg[i]-65; 
+        printf("%d ",c[i]); 
+    } 
+    for(i=0;i<3;i++) 
+    { 
+        t=0; 
+        for(j=0;j<3;j++) 
+        { 
+            t=t+(a[i][j]*c[j]); 
+        } 
+        d[i]=t%26; 
+    } 
+    printf("\nEncrypted Cipher Text :"); 
+    for(i=0;i<3;i++) 
+    printf(" %c",d[i]+65); 
+    for(i=0;i<3;i++) 
+    { 
+        t=0; 
+        for(j=0;j<3;j++) 
+        { 
+            t=t+(b[i][j]*d[j]); 
+        } 
+        c[i]=t%26; 
+    } 
+    printf("\nDecrypted Cipher Text :"); 
+    for(i=0;i<3;i++) 
+    printf(" %c",c[i]+65); 
+    return 0; 
+}
 ```
 # OUTPUT:
 
-![image](https://github.com/user-attachments/assets/6f2ad3a4-3354-4940-93e1-ecba1a6fa69a)
+![Screenshot 2024-11-13 040612](https://github.com/user-attachments/assets/c24393ab-6d83-49c6-8216-8b0b2177fd92)
 
 # RESULT:
-Hence, the simulation of Diffie Hellman algorithm is successfully done. 
+Thus the implementation of Playfair Cipher using C program is executed and verified.
