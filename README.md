@@ -1,4 +1,4 @@
-# PLAYFAIR CIPHER
+# 2. PLAYFAIR CIPHER
 
 # AIM:
 To implement Playfair Cipher using C program 
