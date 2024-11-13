@@ -1,74 +1,67 @@
-# 14. HASH ALGORITHM
+# PLAYFAIR CIPHER
 
 # AIM:
-To generate a simple hash of a given message using a custom hash function,
+To implement Playfair Cipher using C program 
 
 # ALGORITHM:
-Input a message from the user.
-
-Use a basic custom hash function that applies simple operations like XOR and addition on the characters of the message.
-
-Convert the resulting hash into a hexadecimal format.
-
-Display the computed hash to the user.
-
-Optionally verify the hash by recomputing it and comparing it with a received hash.
-
+1. Input the plaintext and the key 
+2. Create the 5x5 cipher matrix 
+3. Prepare the plaintext 
+4. Encrypt the plaintext digraphs 
+5. Output the ciphertext
+   
 # PROGRAM:
 ```
 Program developed by: T. Gayathri
-Reg. No: 212223100007
+Reg. No: 212223100004
 
-#include <stdio.h>
-#include <string.h>
-
-// Function to compute a simple hash using XOR and addition
-void computeSimpleHash(const char *message, unsigned char *hash) {
-    unsigned char temp = 0;
-    for (int i = 0; message[i] != '\0'; i++) {
-        temp ^= message[i];  // XOR each character
-        temp += message[i];  // Add each character's value
-    }
-    *hash = temp;  // Store the result in the hash
-}
-
-int main() {
-    char message[256];  // Buffer for the input message
-    unsigned char hash; // Buffer for the hash (only 1 byte for simplicity)
-    char receivedHash[3]; // Buffer for input of received hash (in hex format)
-
-    // Step 1: Input the message
-    printf("Enter the message: ");
-    scanf("%s", message);
-
-    // Step 2: Compute the simple hash
-    computeSimpleHash(message, &hash);
-
-    // Step 3: Display the computed hash in hexadecimal format
-    printf("Computed Hash (in hex): %02x\n", hash);
-
-    // Step 4: Input the received hash
-    printf("Enter the received hash (in hex): ");
-    scanf("%s", receivedHash);
-
-    // Step 5: Convert received hash from hex string to an unsigned char
-    unsigned int receivedHashValue;
-    sscanf(receivedHash, "%02x", &receivedHashValue);
-
-    // Step 6: Compare the computed hash with the received hash
-    if (hash == receivedHashValue) {
-        printf("Hash verification successful. Message is unchanged.\n");
-    } else {
-        printf("Hash verification failed. Message has been altered.\n");
-    }
-
-    return 0;
+#include<stdio.h> 
+#include<string.h> 
+int main() 
+{ 
+    unsigned int a[3][3]={{6,24,1},{13,16,10},{20,17,15}}; 
+    unsigned int b[3][3]={{8,5,10},{21,8,21},{21,12,8}}; 
+    int i,j, t=0; 
+    unsigned int c[20],d[20]; 
+    char msg[20]; 
+    printf("Enter plain text: "); 
+    scanf("%s",msg); 
+    for(i=0;i<strlen(msg);i++) 
+    { 
+        c[i]=msg[i]-65; 
+        printf("%d ",c[i]); 
+    } 
+    for(i=0;i<3;i++) 
+    { 
+        t=0; 
+        for(j=0;j<3;j++) 
+        { 
+            t=t+(a[i][j]*c[j]); 
+        } 
+        d[i]=t%26; 
+    } 
+    printf("\nEncrypted Cipher Text :"); 
+    for(i=0;i<3;i++) 
+    printf(" %c",d[i]+65); 
+    for(i=0;i<3;i++) 
+    { 
+        t=0; 
+        for(j=0;j<3;j++) 
+        { 
+            t=t+(b[i][j]*d[j]); 
+        } 
+        c[i]=t%26; 
+    } 
+    printf("\nDecrypted Cipher Text :"); 
+    for(i=0;i<3;i++) 
+    printf(" %c",c[i]+65); 
+    return 0; 
 }
 ```
 
 # OUTPUT:
 
-![Screenshot 2024-11-11 033119](https://github.com/user-attachments/assets/692163b0-8a0e-4883-885f-8e1716896f3f)
+![image](https://github.com/user-attachments/assets/b87c9dee-2854-428f-ac17-240ed4732519)
 
-# RESULT: 
-The Program is executed successfully..
+# RESULT:
+Thus the implementation of Playfair Cipher using C program is executed and verified. 
