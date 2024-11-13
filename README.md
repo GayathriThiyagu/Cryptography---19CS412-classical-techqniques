@@ -1,92 +1,70 @@
-# 4.  VIGENERE CIPHER
+# 5. RAIL FENCE CIPHER 
 
 # AIM:
-To implement VigenereCipher using C programming  
+To implement Rail fence cipher using C programming 
 
 # ALGORITHM:
-1: Choose the Keyword 
-2: Align Plaintext with Keyword 
-3: Convert Letters to Numbers 
-4: Shift Plaintext by Corresponding Keyword Character 
-5: Convert the Ciphertext Numbers Back to Letters
+1: Choose the Number of Rails 
+2: Write the Plaintext in a Zigzag Pattern 
+3: Read Each Rail Row-by-Row 
+ 4: Combine the Letters from All Rails 
+ 5: Output the Ciphertext
 
 # PROGRAM:
 ```
-Program developed by: T. Gayathri
+Program: developed by: T. Gayathri
 Reg. No: 212223100007
 
-#include <stdio.h>  
-#include<stdlib.h>  
-#include <ctype.h>  
-#include <string.h>  
-void encipher();  
-void decipher();  
-void main()  
-{  
-int choice;  
-while(1)  
-{  
-printf("\n1. Encrypt Text");  
-printf("\t2. Decrypt Text");  
-printf("\t3. Exit");  
-printf("\n\nEnter Your Choice : ");  
-scanf("%d",&choice);  
-if(choice == 3)  
-exit(0);  
-else if(choice == 1)  
-encipher();  
-else if(choice == 2)  
-decipher();  
-else  
-printf("Please Enter Valid Option.");  
-}  
-}  
-void encipher()  
-{  
-unsigned int i,j;  
-char input[50],key[10];  
-printf("\n\nEnter Plain Text: ");  
-scanf("%s",input);  
-printf("\nEnter Key Value: ");  
-scanf("%s",key);  
-printf("\nResultant Cipher Text: ");  
-for(i=0,j=0;i<strlen(input);i++,j++)  
-{  
-if(j>=strlen(key))  
-{  
-j=0;  
-}  
-printf("%c",65+(((toupper(input[i])-65)+(toupper(key[j])-65))%26));  
-}  
-}  
-void decipher()  
-{  
-unsigned int i,j;  
-char input[50],key[10];  
-int value;  
-printf("\n\nEnter Cipher Text: ");  
-scanf("%s",input);  
-printf("\n\nEnter the key value: ");  
-scanf("%s",key);  
-for(i=0,j=0;i<strlen(input);i++,j++)  
-{  
-if(j>=strlen(key))  
-{  
-j=0;  
-}  
-value = (toupper(input[i])-64)-(toupper(key[j])-64);  
-if( value < 0)  
-{  
-value = value * -1;  
-}  
-printf("%c",65 + (value % 26));  
-}  
-}
+#include <stdio.h> 
+#include<string.h> 
+void main() 
+{ 
+    int i,j,k,l; 
+    char a[20],c[20],d[20]; 
+    printf("\n\t\t RAIL FENCE TECHNIQUE"); 
+    printf("\n\nEnter the input string : "); 
+    gets(a); 
+    l=strlen(a); 
+    for(i=0,j=0;i<l;i++) 
+    { 
+         
+        if(i%2==0) 
+        c[j++]=a[i]; 
+    } 
+    for(i=0;i<l;i++) 
+    { 
+         if(i%2==1) 
+         c[j++]=a[i]; 
+ 
+    } 
+    c[j]='\0'; 
+    printf("\nCipher text after applying rail fence :"); 
+    printf("\n%s",c); 
+    if(l%2==0) 
+     k=l/2; 
+    else 
+     k=(l/2)+1; 
+    for(i=0,j=0;i<k;i++) 
+    { 
+        d[j]=c[i]; 
+        j=j+2; 
+ 
+    } 
+    for(i=k,j=1;i<l;i++) 
+    { 
+        d[j]=c[i]; 
+        j=j+2; 
+         
+    } 
+    d[l]='\0'; 
+    printf("\nText after decryption : "); 
+    printf("%s",d); 
+    
+} 
 ```
-
 # OUTPUT:
 
-![image](https://github.com/user-attachments/assets/e705b2bf-095e-49e3-9b71-4998bd297dd2)
+![image](https://github.com/user-attachments/assets/d84257d1-bcd8-41e4-b6b2-a01b6e395c2f)
 
 # RESULT:
-Thus the implementation of VigenereCipher using C programming was executed and verified. 
+Thus the implementation of Rail Fence cipher using C programming was executed and verified.  
